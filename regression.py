@@ -104,3 +104,27 @@ class LinearRegression(Regression):
     def fit(self, X: Union[List, Tuple, np.ndarray], y: Union[List, Tuple, np.ndarray]) -> np.ndarray:
         super().fit(X, y)
     
+
+class LassoRegression(Regression):
+    """
+    Linear regression model with a regularization factor which does both variable selection 
+    and regularization. Model that tries to balance the fit of the model with respect to the training 
+    data and the complexity of the model. A large regularization factor with decreases the variance of 
+    the model and do para.
+    Parameters:
+    -----------
+    degree: int
+        The degree of the polynomial that the independent variable X will be transformed to.
+    reg_factor: float
+        The factor that will determine the amount of regularization and feature
+        shrinkage. 
+    n_iterations: float
+        The number of training iterations the algorithm will tune the weights for.
+    learning_rate: float
+        The step length that will be used when updating the weights.
+    """
+    def __init__(self, degree, reg_factor, n_iterations=3000, learning_rate=0.01):
+        self.degree = degree
+        self.regularization = l1_regularization(alpha=reg_factor)
+        super().__init__(n_iterations=n_iterations, 
+                        learning_rate=learning_rate)
