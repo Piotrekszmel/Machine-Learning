@@ -177,7 +177,7 @@ class PolynomialRegression(Regression):
     learning_rate: float
         The step length that will be used when updating the weights.
     """
-    def __init__(self, degree: float, n_iterations=3000: Union[int, float], learning_rate=0.001: float) -> None:
+    def __init__(self, degree: float, n_iterations: Union[int, float] = 3000, learning_rate: float = 0.001) -> None:
         self.degree = degree
         # No regularization
         self.regularization = lambda x: 0
@@ -194,4 +194,22 @@ class PolynomialRegression(Regression):
         return super().predict(X)
 
 
-
+class RidgeRegression(Regression):
+    """
+    Also referred to as Tikhonov regularization. Linear regression model with a regularization factor.
+    Model that tries to balance the fit of the model with respect to the training data and the complexity
+    of the model. A large regularization factor with decreases the variance of the model.
+    Parameters:
+    -----------
+    reg_factor: float
+        The factor that will determine the amount of regularization and feature
+        shrinkage. 
+    n_iterations: float
+        The number of training iterations the algorithm will tune the weights for.
+    learning_rate: float
+        The step length that will be used when updating the weights.
+    """
+    def __init__(self, reg_factor: float, n_iterations: Union[int, float] = 1000, learning_rate: float=0.001) -> None:
+        self.regularization = l2_regularization(alpha=reg_factor)
+        super().__init__(n_iterations=n_iterations,
+                        learning_rate=learning_rate)
