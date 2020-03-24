@@ -94,7 +94,7 @@ class LinearRegression(Regression):
         True or false depending if gradient descent should be used when training. If 
         false then we use batch optimization by least squares.
     """
-    def __init__(self, n_iterations: float = 100, learning_rate: float = 0.001) -> None:
+    def __init__(self, n_iterations: Union[int, float] = 100, learning_rate: float = 0.001) -> None:
         self.regularization = lambda x: 0
         self.regularization.grad = lambda x: 0
         super().__init__(n_iterations=n_iterations, learning_rate=learning_rate)
@@ -135,7 +135,7 @@ class LassoRegression(Regression):
     learning_rate: float
         The step length that will be used when updating the weights.
     """
-    def __init__(self, degree: Union[int, float], reg_factor: float, n_iterations: int = 3000, learning_rate: float = 0.01) -> None:
+    def __init__(self, degree: Union[int, float], reg_factor: float, n_iterations: Union[int, float] = 3000, learning_rate: float = 0.01) -> None:
         self.degree = degree
         self.regularization = l1_regularization(alpha=reg_factor)
         super().__init__(n_iterations=n_iterations, 
@@ -177,7 +177,7 @@ class PolynomialRegression(Regression):
     learning_rate: float
         The step length that will be used when updating the weights.
     """
-    def __init__(self, degree, n_iterations=3000, learning_rate=0.001):
+    def __init__(self, degree: float, n_iterations=3000: Union[int, float], learning_rate=0.001: float) -> None:
         self.degree = degree
         # No regularization
         self.regularization = lambda x: 0
@@ -185,11 +185,11 @@ class PolynomialRegression(Regression):
         super().__init__(n_iterations=n_iterations,
                          learning_rate=learning_rate)
 
-    def fit(self, X, y):
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         X = normalize(polynomial_features(X, degree=self.degree))
         super().fit(X, y)
 
-    def predict(self, X):
+    def predict(self, X: np.ndarray) -> np.ndarray:
         X = normalize(polynomial_features(X, degree=self.degree))
         return super().predict(X)
 
