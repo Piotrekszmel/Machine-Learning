@@ -26,6 +26,18 @@ class l2_regularization:
     
     def grad(self, w):
         return self.alpha * w
+
+
+class l1_l2_regularization():
+    """ Regularization for Elastic Net Regression """
+    def __init__(self, alpha, l1_ratio=0.5):
+        self.alpha = alpha
+        self.l1_ratio = l1_ratio
+    
+    def __call__(self, w):
+        l1_contr = self.l1_ratio * np.linalg.norm(w)
+        l2_contr = (1 - self.l1_ratio) * 0.5 * w.T.dot(w)
+        return self.alpha * (l1_contr + l2_contr)
     
 
 class Regression:
@@ -272,3 +284,26 @@ class PolynomialRidgeRegression(Regression):
         X = normalize(polynomial_features(X, degree=self.degree))
         return super().predict(X)
     
+
+class ElasticNet(Regression):
+    """ 
+    Regression where a combination of l1 and l2 regularization are used. The
+    ratio of their contributions are set with the 'l1_ratio' parameter.
+    Parameters:
+    -----------
+    degree: int
+        The degree of the polynomial that the independent variable X will be transformed to.
+    reg_factor: float
+        The factor that will determine the amount of regularization and feature
+        shrinkage. 
+    l1_ration: float
+        Weighs the contribution of l1 and l2 regularization.
+    n_iterations: float
+        The number of training iterations the algorithm will tune the weights for.
+    learning_rate: float
+        The step length that will be used when updating the weights.
+    """
+    def __init__(self, degree=1, reg_factor=0.05, l1_ratio=0.5, n_iterations=3000,
+                learning_rate=0.01):
+        self.degree = degree
+        self.regularization = 
