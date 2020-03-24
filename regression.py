@@ -6,40 +6,45 @@ from utils.data_manipulation import normalize, polynomial_features
 
 class l1_regularization:
     """ Regularization for Lasso Regression """
-    def __init__(self, alpha):
+    def __init__(self, alpha: float) -> None:
         self.alpha = alpha
     
-    def __call__(self, w):
+    def __call__(self, w: np.ndarray) -> np.float64:
         return self.alpha * np.linalg.norm(w)
     
-    def grad(self, w):
+    def grad(self, w: np.ndarray) -> np.ndarray:
         return self.alpha * np.sign(w)
 
 
 class l2_regularization:
     """ Regularization for Ridge Regression """
-    def __init__(self, alpha):
+    def __init__(self, alpha: float) -> None:
         self.alpha = alpha
     
-    def __call__(self, w):
+    def __call__(self, w: np.ndarray) -> np.float64:
         return self.alpha * 0.5 * w.T.dot(w)
     
-    def grad(self, w):
+    def grad(self, w: np.ndarray) -> np.ndarray:
         return self.alpha * w
 
 
 class l1_l2_regularization():
     """ Regularization for Elastic Net Regression """
-    def __init__(self, alpha, l1_ratio=0.5):
+    def __init__(self, alpha: float, l1_ratio: float = 0.5) -> None:
         self.alpha = alpha
         self.l1_ratio = l1_ratio
     
-    def __call__(self, w):
+    def __call__(self, w: np.ndarray) -> np.float64:
         l1_contr = self.l1_ratio * np.linalg.norm(w)
         l2_contr = (1 - self.l1_ratio) * 0.5 * w.T.dot(w)
         return self.alpha * (l1_contr + l2_contr)
     
+    def grad(self, w: np.ndarray) -> np.ndarray:
+        l1_contr = self.l1_ratio * np.sign(w)
+        l2_contr = (1 - self.l1_ratio) * w
+        return self.alpha * (l1_contr + l2_contr) 
 
+    
 class Regression:
     """
     Base regression model. Models the relationship between a scalar dependent variable y and the independent 
@@ -290,6 +295,20 @@ class ElasticNet(Regression):
     Regression where a combination of l1 and l2 regularization are used. The
     ratio of their contributions are set with the 'l1_ratio' parameter.
     Parameters:
+    
+    # Example: 
+    
+    ```python
+        x = 2 - 3 * np.random.normal(0, 1, 20)
+        y = x - 2 * (x ** 2) + 0.5 * (x ** 3) + np.random.normal(-3, 3, 20)
+
+        x = x[:, np.newaxis]
+
+        poly = ElasticNet(5, 0.01, 1000)
+        poly.fit(x, y)
+        pred = poly.predict(x[:1])
+        print(pred)
+
     -----------
     degree: int
         The degree of the polynomial that the independent variable X will be transformed to.
@@ -303,7 +322,18 @@ class ElasticNet(Regression):
     learning_rate: float
         The step length that will be used when updating the weights.
     """
-    def __init__(self, degree=1, reg_factor=0.05, l1_ratio=0.5, n_iterations=3000,
-                learning_rate=0.01):
+    def __init__(self, degree: Union[int, float] = 1, reg_factor: float = 0.05, l1_ratio: float = 0.5, 
+                n_iterations: Union[int, float] = 3000,
+                learning_rate: float = 0.01):
         self.degree = degree
-        self.regularization = 
+        self.regularization = l1_l2_regularization(alpha=reg_factor, l1_ratio=l1_ratio)
+        super().__init__(n_iterations=n_iterations,
+                         learning_rate=learning_rate)
+    
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
+        X = normalize(polynomial_features(X, degree=self.degree))
+        super().fit(X, y)
+    
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        X = normalize(polynomial_features(X, degree=self.degree))
+        return super().predict(X)
