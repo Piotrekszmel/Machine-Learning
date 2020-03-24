@@ -11,10 +11,10 @@ def polynomial_features(X, degree):
         return flat_combs
     
     combinations = index_combinations()
-    n_output_feature = len(combinations)
-    X_new = np.empty((n_samples, n_output_feature))
-
-    for i, index_combs in enumerate(combinations):
+    n_output_features = len(combinations)
+    X_new = np.empty((n_samples, n_output_features))
+    
+    for i, index_combs in enumerate(combinations):  
         X_new[:, i] = np.prod(X[:, index_combs], axis=1)
 
     return X_new

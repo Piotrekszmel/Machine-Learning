@@ -1,6 +1,7 @@
 from typing import Union, Tuple, List
 import numpy as np 
 import math
+from utils.data_manipulation import normalize, polynomial_features
 
 
 class l1_regularization:
@@ -68,7 +69,6 @@ class Regression:
     def predict(self, X: Union[List, Tuple, np.ndarray]) -> np.ndarray:
         X = np.insert(X, 0, 1, axis=1)
         y_pred = X.dot(self.w)
-        print(type(y_pred))
         return y_pred
 
 
@@ -111,6 +111,20 @@ class LassoRegression(Regression):
     and regularization. Model that tries to balance the fit of the model with respect to the training 
     data and the complexity of the model. A large regularization factor with decreases the variance of 
     the model and do para.
+
+    # Example: 
+    
+    ```python
+        X = np.array([[1,2,3,4,5], 
+              [10,11,12,13,14]])
+        y = np.array([6, 15])
+
+        lr = LassoRegression(5, 0.01, 5000)
+        lr.fit(X, y)
+        pred = lr.predict(np.array([[6,7,8,9,10]]))
+        print(pred)
+
+
     Parameters:
     -----------
     degree: int
@@ -123,8 +137,17 @@ class LassoRegression(Regression):
     learning_rate: float
         The step length that will be used when updating the weights.
     """
-    def __init__(self, degree, reg_factor, n_iterations=3000, learning_rate=0.01):
+    def __init__(self, degree: Union[int, float], reg_factor: float, n_iterations: int = 3000, learning_rate: float = 0.01) -> None:
         self.degree = degree
         self.regularization = l1_regularization(alpha=reg_factor)
         super().__init__(n_iterations=n_iterations, 
                         learning_rate=learning_rate)
+
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
+        X = normalize(polynomial_features(X, degree=self.degree))
+        super().fit(X, y)
+    
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        X = normalize(polynomial_features(X, degree=self.degree))
+        return super().predict(X)
+
