@@ -59,10 +59,8 @@ class Regression:
         # Do gradient descent for n_iterations
         for i in range(self.n_iterations):
             y_pred = X.dot(self.w)
-
             mse = np.mean(0.5 * (y - y_pred)**2 + self.regularization(self.w))
             self.training_errors.append(mse)
-
             grad_w  = -(y - y_pred).dot(X) + self.regularization.grad(self.w)
             self.w = self.w -  self.learning_rate * grad_w
     
@@ -150,4 +148,50 @@ class LassoRegression(Regression):
     def predict(self, X: np.ndarray) -> np.ndarray:
         X = normalize(polynomial_features(X, degree=self.degree))
         return super().predict(X)
+
+
+class PolynomialRegression(Regression):
+    """Performs a non-linear transformation of the data before fitting the model
+    and doing predictions which allows for doing non-linear regression.
+    Parameters:
+    
+    # Example: 
+    
+    ```python
+        np.random.seed(0)
+        x = 2 - 3 * np.random.normal(0, 1, 20)
+        y = x - 2 * (x ** 2) + 0.5 * (x ** 3) + np.random.normal(-3, 3, 20)
+
+        x = x[:, np.newaxis]
+
+        poly = PolynomialRegression(5, 1000)
+        poly.fit(x, y)
+        pred = poly.predict(x[:1])
+        print(pred)
+
+    -----------
+    degree: int
+        The degree of the polynomial that the independent variable X will be transformed to.
+    n_iterations: float
+        The number of training iterations the algorithm will tune the weights for.
+    learning_rate: float
+        The step length that will be used when updating the weights.
+    """
+    def __init__(self, degree, n_iterations=3000, learning_rate=0.001):
+        self.degree = degree
+        # No regularization
+        self.regularization = lambda x: 0
+        self.regularization.grad = lambda x: 0
+        super().__init__(n_iterations=n_iterations,
+                         learning_rate=learning_rate)
+
+    def fit(self, X, y):
+        X = normalize(polynomial_features(X, degree=self.degree))
+        super().fit(X, y)
+
+    def predict(self, X):
+        X = normalize(polynomial_features(X, degree=self.degree))
+        return super().predict(X)
+
+
 
