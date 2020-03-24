@@ -200,6 +200,19 @@ class RidgeRegression(Regression):
     Model that tries to balance the fit of the model with respect to the training data and the complexity
     of the model. A large regularization factor with decreases the variance of the model.
     Parameters:
+    
+    # Example: 
+    
+    ```python
+        X = np.array([[1,2,3,4,5], 
+                [10,11,12,13,14]])
+        y = np.array([6, 15])
+
+        lr = RidgeRegression(0.001, 20000)
+        lr.fit(X, y)
+        pred = lr.predict(np.array([[6,7,8,9,10]]))
+        print(pred)
+
     -----------
     reg_factor: float
         The factor that will determine the amount of regularization and feature
@@ -212,4 +225,50 @@ class RidgeRegression(Regression):
     def __init__(self, reg_factor: float, n_iterations: Union[int, float] = 1000, learning_rate: float=0.001) -> None:
         self.regularization = l2_regularization(alpha=reg_factor)
         super().__init__(n_iterations=n_iterations,
-                        learning_rate=learning_rate)
+                         learning_rate=learning_rate)
+
+
+class PolynomialRidgeRegression(Regression):
+    """
+    Similar to regular ridge regression except that the data is transformed to allow
+    for polynomial regression.
+    Parameters:
+    
+    # Example: 
+    
+    ```python
+        x = 2 - 3 * np.random.normal(0, 1, 20)
+        y = x - 2 * (x ** 2) + 0.5 * (x ** 3) + np.random.normal(-3, 3, 20)
+
+        x = x[:, np.newaxis]
+
+        poly = PolynomialRidgeRegression(5, 0.01, 1000)
+        poly.fit(x, y)
+        pred = poly.predict(x[:1])
+        print(pred)
+
+    -----------
+    degree: int
+        The degree of the polynomial that the independent variable X will be transformed to.
+    reg_factor: float
+        The factor that will determine the amount of regularization and feature
+        shrinkage. 
+    n_iterations: float
+        The number of training iterations the algorithm will tune the weights for.
+    learning_rate: float
+        The step length that will be used when updating the weights.
+    """
+    def __init__(self, degree, reg_factor, n_iterations=3000, learning_rate=0.01):
+        self.degree = degree
+        self.regularization = l2_regularization(alpha=reg_factor)
+        super().__init__(n_iterations=n_iterations,
+                         learning_rate=learning_rate)
+    
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
+        X = normalize(polynomial_features(X, degree=self.degree))
+        super().fit(X, y)
+    
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        X = normalize(polynomial_features(X, degree=self.degree))
+        return super().predict(X)
+    
