@@ -87,5 +87,4 @@ def standardize(X: np.ndarray) -> np.ndarray:
     for col in range(np.shape(X)[1]):
         if std[col]:
             X_std[:, col] = (X_std[:, col] - mean[col]) / std[col]
-    # X_std = (X - X.mean(axis=0)) / X.std(axis=0)
     return X_std
