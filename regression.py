@@ -338,7 +338,7 @@ class ElasticNet(Regression):
         X = normalize(polynomial_features(X, degree=self.degree))
         return super().predict(X)
 
-
+"""
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -419,3 +419,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+""" 
