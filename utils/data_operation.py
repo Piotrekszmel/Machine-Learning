@@ -8,7 +8,7 @@ def mean_squared_error(y_true, y_pred):
     return mse 
     
 
-def calculate_covariance_matrix(X: np.ndarray Y: np.ndarray = None) -> np.ndarray:
+def calculate_covariance_matrix(X: np.ndarray, Y: np.ndarray = None) -> np.ndarray:
     """ Calculate the covariance matrix for the dataset X """
     if Y is None:
         Y = X
