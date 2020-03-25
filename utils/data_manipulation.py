@@ -36,7 +36,19 @@ def normalize(X: np.array, axis: Union[int, float] = -1, order: Union[int, float
     return X / np.expand_dims(l2, axis)
 
 
-def k_fold_cross_validation_sets(X, y, k, shuffle=True):
+def train_test_split(X: np.ndarray, y: np.ndarray, test_size: float = 0.5, shuffle: bool = True, seed: Union[int, float] = None):
+    """ Split the data into train and test sets """
+    if shuffle:
+        X, y = shuffle_data(X, y, seed)
+    # Split the training data from test data in the ratio specified in
+    # test_size
+    split_i = len(y) - int(len(y) // (1 / test_size))
+    X_train, X_test = X[:split_i], X[split_i:]
+    y_train, y_test = y[:split_i], y[split_i:]
+
+    return X_train, X_test, y_train, y_test
+
+def k_fold_cross_validation_sets(X: np.ndarray, y: np.ndarray, k: int, shuffle: bool = True):
     """ Split the data into k sets of training / test data """
     if shuffle:
         X, y = shuffle_data(X, y)
