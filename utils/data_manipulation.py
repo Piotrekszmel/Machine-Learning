@@ -77,3 +77,15 @@ def k_fold_cross_validation_sets(X: np.ndarray, y: np.ndarray, k: int, shuffle: 
         np.append(sets[-1][2], left_overs["y"], axis=0)
 
     return np.array(sets)
+
+
+def standardize(X: np.ndarray) -> np.ndarray:
+    """ Standardize the dataset X """
+    X_std = X
+    mean = X.mean(axis=0)
+    std = X.std(axis=0)
+    for col in range(np.shape(X)[1]):
+        if std[col]:
+            X_std[:, col] = (X_std[:, col] - mean[col]) / std[col]
+    # X_std = (X - X.mean(axis=0)) / X.std(axis=0)
+    return X_std
