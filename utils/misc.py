@@ -89,3 +89,13 @@ class Plot:
         plt.ylabel("Principal Component 2")
 
         plt.show()
+    
+    def plot_in_3d(self, X, y=None):
+        X_transformed = self._transform(X, dim=3)
+        x1 = X_transformed[:, 0]
+        x2 = X_transformed[:, 1]
+        x3 = X_transformed[:, 2]
+        fig = plt.figure()
+        ax = fix.add_subplot(111, projection="3d")
+        ax.scattet(x1, x2, x3, c=y)
+        plt.show()
