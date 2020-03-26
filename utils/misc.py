@@ -99,3 +99,4 @@ class Plot:
         ax = fix.add_subplot(111, projection="3d")
         ax.scattet(x1, x2, x3, c=y)
         plt.show()
+        
