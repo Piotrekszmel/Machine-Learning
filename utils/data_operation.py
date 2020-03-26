@@ -2,9 +2,9 @@ import numpy as np
 import math
 
 
-def mean_squared_error(y_true, y_pred):
+def mean_squared_error(y_true: np.ndarray, y_pred: np.ndarray) -> np.float64:
     """ Returns the mean squared error between y_true and y_pred """
-    mse = np.mean(np.power((y - y_pred), 2))
+    mse = np.mean(np.power((y_true - y_pred), 2))
     return mse 
     
 

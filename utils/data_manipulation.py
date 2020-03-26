@@ -7,7 +7,7 @@ def shuffle_data(X: np.ndarray, y: np.ndarray, seed: Union[int, float] = None) -
     """ Random shuffle of the samples in X and y """
     if seed:
         np.random.seed(seed)
-    idx = np.arange(x.shape[0])
+    idx = np.arange(X.shape[0])
     np.random.shuffle(idx)
     return X[idx], y[idx]
 

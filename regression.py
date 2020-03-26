@@ -1,7 +1,7 @@
 from typing import Union, Tuple, List
 import numpy as np 
 import math
-from utils.data_manipulation import normalize, polynomial_features
+from MachineLearning.utils.data_manipulation import normalize, polynomial_features
 
 
 class l1_regularization:
