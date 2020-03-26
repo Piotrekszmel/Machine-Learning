@@ -5,9 +5,9 @@ import matplotlib.cm as cmx
 import matplotlib.colors as colors
 import numpy as np 
 
-from data_operation import calculate_correlation_matrix
-from data_operation import calculate_covariance_matrix
-from data_manipulation import standardize
+from utils.data_operation import calculate_correlation_matrix
+from utils.data_operation import calculate_covariance_matrix
+from utils.data_manipulation import standardize
 
 bar_widgets = [
     "Training: ", progressbar.Percentage(), " ", progressbar.Bar(marker="-", left="[", right="]"),
@@ -25,12 +25,12 @@ class Plot:
         # Sort eigenvalues and eigenvector by largest eigenvalues
         idx = eigenvalues.argsort()[::-1]
         eigenvalues = eigenvalues[idx][:dim]
-        eigenvectors = np.atleast_1d(eigenvectors[:, idx])(:, :dim)
+        eigenvectors = np.atleast_1d(eigenvectors[:, idx])[:, :dim]
         X_transformed = X.dot(eigenvectors)
         
         return X_transformed
     
-    def plot_regression(self, lines, title, axis_labels=None, mse=None, scatter=None, legend={"type": "lines", "loc": "lower right"})
+    def plot_regression(self, lines, title, axis_labels=None, mse=None, scatter=None, legend={"type": "lines", "loc": "lower right"}):
         if scatter: 
             scatter_plots = scatter_labels = []
             for s in scatter:
