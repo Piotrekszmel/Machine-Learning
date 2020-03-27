@@ -17,3 +17,20 @@ class Softmax():
     def gradient(self, x):
         p = self.__call__(x)
         return p * (1 - p)
+
+
+class Tanh:
+    def __call__(self, x):
+        return 2 / (1 + np.exp(-2*x)) - 1
+    
+    def gradient(self, x):
+        return 1 - np.power(self.__call__(x), 2)
+
+
+class ReLU:
+    def __call__(self, x):
+        return np.where(x >= 0, x, 0)
+
+    def gradient(self, x):
+        return np.where(x >= 0, 1, 0)
+    

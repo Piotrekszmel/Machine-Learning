@@ -98,6 +98,6 @@ def to_nominal(x):
 def make_diagonal(x):
     """ Converts a vector into an diagonal matrix """
     m = np.zeros((len(x), len(x)))
-    for i range(len(m[0])):
+    for i in range(len(m[0])):
         m[i, i] = x[i]
     return m
