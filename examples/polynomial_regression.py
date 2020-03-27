@@ -74,7 +74,6 @@ def main():
     plt.xlabel('Day')
     plt.ylabel('Temperature in Celcius')
     plt.legend((m1, m2), ("Training data", "Test data"), loc='lower right')
-    plt.savefig("polynomial_regression")
     plt.show()
 
 
