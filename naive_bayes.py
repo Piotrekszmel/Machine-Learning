@@ -1,5 +1,6 @@
 import numpy as np 
 import math 
+from typing import List
 
 from MachineLearning.utils.data_manipulation import train_test_split, polynomial_features
 from MachineLearning.utils.data_operation import accuracy_score
@@ -17,11 +18,11 @@ class NaiveBayes:
             X_where_c = X[np.where(y == c)]
             self.parameters.append([])
              # Add the mean and variance for each feature (column)
-             for col in X_where_c.T:
-                 parameters = {"mean": col.mean(), "var": col.var()}
-                 self.parameters[i].append(parameters)
+            for col in X_where_c.T:
+                parameters = {"mean": col.mean(), "var": col.var()}
+                self.parameters[i].append(parameters)
 
-    def _calculate_likelihood(self, mean, var, x):
+    def _calculate_likelihood(self, mean: np.float64, var: np.float64, x: np.float64) -> float:
         """ Gaussian likelihood of the data x given mean and var """
          # Added in denominator to prevent division by zero
         eps = 1e-4
@@ -29,7 +30,7 @@ class NaiveBayes:
         exponent = math.exp(-(math.pow(x - mean, 2) / (2 * var + eps)))
         return coeff * exponent
 
-    def _calculate_prior(self, c):
+    def _calculate_prior(self, c: np.int64) -> np.float64:
         """ 
         Calculate the prior of class c
         (samples where class == c / total number of samples)
@@ -37,7 +38,7 @@ class NaiveBayes:
         frequency = np.mean(self.y == c)
         return frequency
     
-    def _classify(self, sample):
+    def _classify(self, sample: np.ndarray) -> np.int64:
         """ 
         Classification using Bayes Rule P(Y|X) = P(X|Y)*P(Y)/P(X),
             or Posterior = Likelihood * Prior / Scaling Factor
@@ -52,7 +53,6 @@ class NaiveBayes:
         Classifies the sample as the class that results in the largest P(Y|X) (posterior)
         """
         posteriors = []
-
         for i, c in enumerate(self.classes):
             # Initialize posterior as prior
             posterior = self._calculate_prior(c)
@@ -60,9 +60,9 @@ class NaiveBayes:
                 likelihood = self._calculate_likelihood(params["mean"], params["var"], feature_value)
                 posterior *= likelihood
             posteriors.append(posterior)
-        return self.classes(np.argmax(posteriors))
+        return self.classes[np.argmax(posteriors)]
     
-    def predict(self, X: np.ndarray):
+    def predict(self, X: np.ndarray) -> List[np.int64]:
         """ Predict the class labels of the samples in X """
         y_pred = [self._classify(sample) for sample in X]
         return y_pred

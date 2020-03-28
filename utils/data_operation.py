@@ -23,6 +23,18 @@ def calculate_std_dev(X: np.ndarray) -> np.ndarray:
     return std_dev
 
 
+def calculate_entropy(y):
+    """ Calculate the entropy of label array y """
+    log2 = lambda x: math.log(x) / math.log(2)
+    unique_labels = np.unique(y)
+    entropy = 0
+    for label in unique_labels:
+        count = len(y[y == label])
+        p = coumt / len(y)
+        entropy += -p * log2(p)
+    return entropy
+
+
 def calculate_covariance_matrix(X: np.ndarray, Y: np.ndarray = None) -> np.ndarray:
     """ Calculate the covariance matrix for the dataset X """
     if Y is None:
