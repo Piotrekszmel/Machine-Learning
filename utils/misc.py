@@ -5,9 +5,9 @@ import matplotlib.cm as cmx
 import matplotlib.colors as colors
 import numpy as np 
 
-from utils.data_operation import calculate_correlation_matrix
-from utils.data_operation import calculate_covariance_matrix
-from utils.data_manipulation import standardize
+from MachineLearning.utils.data_operation import calculate_correlation_matrix
+from MachineLearning.utils.data_operation import calculate_covariance_matrix
+from MachineLearning.utils.data_manipulation import standardize
 
 bar_widgets = [
     "Training: ", progressbar.Percentage(), " ", progressbar.Bar(marker="-", left="[", right="]"),
@@ -97,6 +97,6 @@ class Plot:
         x3 = X_transformed[:, 2]
         fig = plt.figure()
         ax = fix.add_subplot(111, projection="3d")
-        ax.scattet(x1, x2, x3, c=y)
+        ax.scatter(x1, x2, x3, c=y)
         plt.show()
         

@@ -33,6 +33,12 @@ def calculate_covariance_matrix(X: np.ndarray, Y: np.ndarray = None) -> np.ndarr
     return np.array(covariance_matrix, dtype=float)
 
 
+def accuracy_score(y_true: np.ndarray, y_pred: np.ndarray) -> np.float64:
+    """ Compare y_true to y_pred and return the accuracy """
+    accuracy = np.sum(y_true == y_pred, axis=0) / len(y_true)
+    return accuracy
+
+
 def calculate_correlation_matrix(X: np.ndarray, Y: np.ndarray = None) -> np.ndarray:
     """ Calculate the correlation matrix for the dataset X """
     if Y is None:
