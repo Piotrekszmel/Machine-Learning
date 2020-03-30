@@ -141,4 +141,22 @@ class DecisionTree:
         """ Classify samples one by one and return the set of labels """
         y_pred = [self.predict_value(sample) for sample in X]
         return y_pred
+    
+    def print_tree(self, tree=None, indent=" "):
+        """ Recursively print the decision tree """
+        if not tree:
+            self.tree = self.root
         
+        if tree.value is not None:
+            print(tree.value)
+        
+        else:
+            print(f"{tree.feature_values: tree.threshold}")
+            print(f"{indent}T->", end"")
+            self.print_tree(tree.true_branch, index + indent)
+            print(f"{index}F->", end"")
+            self.print_tree(tree.false_branch, index + indent)
+
+
+class RegressionTree(DecisionTree):
+    def _calculate_variance_reduction(self, y, y1, y2)
