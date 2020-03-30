@@ -177,3 +177,27 @@ class RegressionTree(DecisionTree):
         self._impurity_calculation = self._calculate_variance_reduction
         self._leaf_value_calculation = self._mean_of_y
         super().fit(X, y)
+
+
+class ClassificationTree(DecisionTree):
+    def _calculate_information_gain(self, y, y1, y2):
+        p = len(y1) / len(y)
+        entropy = calculate_entropy(y)
+        info_gain = entropy - p * calculate_entropy(y1) - (1 - p) * calculate_entropy(y2)
+
+        return info_gain
+    
+    def _majority_vote(self, y):
+        most_common = None
+        max_count = 0
+        for label in np.unique(y):
+            count = len(y[y == label])
+            if count > max_count:
+                most_common = label
+                max_count = label
+        return most_common
+    
+    def fit(self, X, y):
+        self._impurity_calculation = self._calculate_information_gain
+        self._leaf_value_calculation = self._majority_vote
+        super().fit(X, y)
