@@ -113,3 +113,32 @@ class DecisionTree:
         leaf_value = self._leaf_value_calculation(y)
 
         return DecisionNode(value=leaf_value)
+    
+    def predict_value(self, X, tree=None):
+        """ 
+        Do a recursive search down the tree and make a prediction of the data sample by the
+        value of the leaf that we end up at 
+        """
+        
+        if tree is None:
+            tree = self.root
+
+        if tree.value is not None:
+            return tree.value
+        
+        feature_value = X[tree.feature_i]
+
+        branch = tree.false_branch
+        if isinstance(feature_value, int) or isinstance(feature_value, float):
+            if feature_value >= tree.threshold:
+                branch = tree.true_branch
+        elif feature_value == tree.true_branch:
+            branch = tree.true_branch
+        
+        return self.predict_value(X, branch)
+    
+    def predict(self, X):
+        """ Classify samples one by one and return the set of labels """
+        y_pred = [self.predict_value(sample) for sample in X]
+        return y_pred
+        
