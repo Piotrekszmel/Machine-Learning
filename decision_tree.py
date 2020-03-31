@@ -1,4 +1,5 @@
 import numpy as np 
+from typing import List
 
 from MachineLearning.utils.data_manipulation import train_test_split, standardize, divide_on_feature
 from MachineLearning.utils.data_operation import calculate_entropy, accuracy_score, calculate_variance
@@ -44,8 +45,8 @@ class DecisionTree:
     loss: function
         Loss function that is used for Gradient Boosting models to calculate impurity.
     """
-    def __init__(self, min_samples_split=2, min_impurity=1e-7, 
-                max_depth=float("inf"), loss=None):
+    def __init__(self, min_samples_split: int = 2, min_impurity: float = 1e-7, 
+                max_depth: int = float("inf"), loss=None) -> None:
         self.root = None
         self.min_samples_split = min_samples_split
         self.min_impurity = min_impurity
@@ -55,13 +56,13 @@ class DecisionTree:
         self.one_dim = None
         self.loss = loss
     
-    def fit(self, X, y, loss=None):
+    def fit(self, X: np.ndarray, y: np.ndarray, loss=None) -> None:
         """ Build decision tree """
         self.one_dim = len(np.shape(y)) == 1
         self.root = self._build_tree(X, y)
         self.loss = None
     
-    def _build_tree(self, X, y, current_depth):
+    def _build_tree(self, X: np.ndarray, y: np.ndarray, current_depth: int = 0) -> DecisionNode:
         """ 
         Recursive method which builds out the decision tree and splits X and respective y
         on the feature of X which (based on impurity) best separates the data
@@ -84,7 +85,7 @@ class DecisionTree:
                 unique_values = np.unique(feature_values)
 
                 for threshold in unique_values:
-                    Xy1, Xy2 = divide_on_feature(Xym feature_i, threshold)
+                    Xy1, Xy2 = divide_on_feature(Xy, feature_i, threshold)
 
                     if len(Xy1) > 0 and len(Xy2) > 0:
                         y1 = Xy1[:, n_features:]
@@ -114,12 +115,11 @@ class DecisionTree:
 
         return DecisionNode(value=leaf_value)
     
-    def predict_value(self, X, tree=None):
+    def predict_value(self, X: np.ndarray, tree: DecisionNode = None) -> np.float64:
         """ 
         Do a recursive search down the tree and make a prediction of the data sample by the
         value of the leaf that we end up at 
         """
-        
         if tree is None:
             tree = self.root
 
@@ -127,14 +127,12 @@ class DecisionTree:
             return tree.value
         
         feature_value = X[tree.feature_i]
-
         branch = tree.false_branch
         if isinstance(feature_value, int) or isinstance(feature_value, float):
             if feature_value >= tree.threshold:
                 branch = tree.true_branch
-        elif feature_value == tree.true_branch:
+        elif feature_value == tree.threshold:
             branch = tree.true_branch
-        
         return self.predict_value(X, branch)
     
     def predict(self, X):
@@ -142,7 +140,7 @@ class DecisionTree:
         y_pred = [self.predict_value(sample) for sample in X]
         return y_pred
     
-    def print_tree(self, tree=None, indent=" "):
+    def print_tree(self, tree: DecisionNode = None, indent=" ") -> None:
         """ Recursively print the decision tree """
         if not tree:
             self.tree = self.root
@@ -152,14 +150,14 @@ class DecisionTree:
         
         else:
             print(f"{tree.feature_values: tree.threshold}")
-            print(f"{indent}T->", end"")
+            print(f"{indent}T->", end="")
             self.print_tree(tree.true_branch, index + indent)
-            print(f"{index}F->", end"")
+            print(f"{index}F->", end="")
             self.print_tree(tree.false_branch, index + indent)
 
 
 class RegressionTree(DecisionTree):
-    def _calculate_variance_reduction(self, y, y1, y2):
+    def _calculate_variance_reduction(self, y: np.ndarray, y1: np.ndarray, y2: np.ndarray) -> np.float64:
         var_total = calculate_variance(y)
         var_1 = calculate_variance(y1)
         var_2 = calculate_variance(y2)
@@ -169,11 +167,11 @@ class RegressionTree(DecisionTree):
         variance_reduction = var_total - (var_1 * frac_1 + var_2 * frac_2)
         return sum(variance_reduction)
     
-    def _mean_of_y(self, y):
+    def _mean_of_y(self, y: np.ndarray) -> np.ndarray:
         value = np.mean(y, axis=0)
         return value if len(value) > 1 else value[0]
     
-    def fit(self, X, y):
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         self._impurity_calculation = self._calculate_variance_reduction
         self._leaf_value_calculation = self._mean_of_y
         super().fit(X, y)
@@ -187,7 +185,7 @@ class ClassificationTree(DecisionTree):
 
         return info_gain
     
-    def _majority_vote(self, y):
+    def _majority_vote(self, y: np.ndarray) -> int:
         most_common = None
         max_count = 0
         for label in np.unique(y):
@@ -197,7 +195,7 @@ class ClassificationTree(DecisionTree):
                 max_count = label
         return most_common
     
-    def fit(self, X, y):
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         self._impurity_calculation = self._calculate_information_gain
         self._leaf_value_calculation = self._majority_vote
         super().fit(X, y)

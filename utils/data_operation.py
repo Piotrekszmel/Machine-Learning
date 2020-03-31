@@ -30,7 +30,7 @@ def calculate_entropy(y):
     entropy = 0
     for label in unique_labels:
         count = len(y[y == label])
-        p = coumt / len(y)
+        p = count / len(y)
         entropy += -p * log2(p)
     return entropy
 
