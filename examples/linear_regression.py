@@ -5,7 +5,7 @@ from sklearn.datasets import make_regression
 
 from MachineLearning.utils.data_manipulation import train_test_split, polynomial_features
 from MachineLearning.utils.data_operation import mean_squared_error
-from MachineLearning.regression import LinearRegression
+from MachineLearning.supervised_learning.regression import LinearRegression
 
 
 def main():

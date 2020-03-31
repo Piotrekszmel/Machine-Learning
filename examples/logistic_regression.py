@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from MachineLearning.utils.data_manipulation import train_test_split, normalize
 from MachineLearning.utils.data_operation import accuracy_score
 from MachineLearning.utils.misc import Plot
-from MachineLearning.LogisticRegression import LogisticRegression
+from MachineLearning.supervised_learning.LogisticRegression import LogisticRegression
 
 
 def main():

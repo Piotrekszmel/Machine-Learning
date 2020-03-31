@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from MachineLearning.regression import LassoRegression
 from MachineLearning.utils.data_manipulation import k_fold_cross_validation_sets, normalize, train_test_split, polynomial_features
 from MachineLearning.utils.data_operation import mean_squared_error
+from MachineLearning.supervised_learning.regression import LassoRegression
 
 
 def main():

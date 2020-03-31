@@ -5,7 +5,7 @@ import pandas as pd
 from MachineLearning.utils.data_manipulation import train_test_split, standardize
 from MachineLearning.utils.data_operation import mean_squared_error, accuracy_score, calculate_variance
 from MachineLearning.utils.misc import Plot
-from MachineLearning.decision_tree import RegressionTree
+from MachineLearning.supervised_learning.decision_tree import RegressionTree
 
 def main():
     print("-- Regression Tree --")

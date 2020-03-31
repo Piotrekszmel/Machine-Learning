@@ -4,7 +4,7 @@ import numpy as np
 from MachineLearning.utils.data_manipulation import train_test_split, normalize
 from MachineLearning.utils.data_operation import accuracy_score
 from MachineLearning.utils.misc import Plot
-from MachineLearning.naive_bayes import NaiveBayes
+from MachineLearning.supervised_learning.naive_bayes import NaiveBayes
 
 
 def main():
