@@ -14,11 +14,11 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 ```
 
-### What have been implemented so far? (1.04.2020)
+## What have been implemented so far? (1.04.2020)
 
 ### supervised_learning/
 
-### regression.py:
+#### regression.py:
 1) l1_regularization
 2) l2_regularization
 3) l1_l2_regularization
@@ -29,23 +29,23 @@ y_pred = clf.predict(X_test)
 8) PolynomialRidge Regression
 9) ElasticNet
 
-### LogisticRegression.py:
+#### LogisticRegression.py:
 1) LogisticRegression
  
-### decision_tree.py:
+#### decision_tree.py:
 1) Regression Tree
 2) Classification Tree
 
-### naive_bayes:
+#### aive_bayes:
 1) NaiveBayes
 
 ### deep_learning/
 
-### activation_functions.py: 
+#### ctivation_functions.py: 
 1) Sigmoid
 2) Softmax
 3) Tanh
 4) ReLU
   
-### layers.py:
+#### ayers.py:
 1) Dense
