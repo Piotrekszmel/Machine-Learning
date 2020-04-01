@@ -17,33 +17,35 @@ y_pred = clf.predict(X_test)
 ### What have been implemented so far? (1.04.2020)
 
 ### supervised_learning/
-1) regression.py:
-  - l1_regularization
-  - l2_regularization
-  - l1_l2_regularization
-  - Linear Regression
-  - Lasso Regression
-  - Polynomial Regression
-  - Ridge Regression
-  - PolynomialRidge Regression
-  - ElasticNet
 
-2) LogisticRegression.py:
-  - LogisticRegression
+### regression.py:
+1) l1_regularization
+2) l2_regularization
+3) l1_l2_regularization
+4) Linear Regression
+5) Lasso Regression
+6) Polynomial Regression
+7) Ridge Regression
+8) PolynomialRidge Regression
+9) ElasticNet
+
+### LogisticRegression.py:
+1) LogisticRegression
  
-3) decision_tree.py:
-  - Regression Tree
-  - Classification Tree
+### decision_tree.py:
+1) Regression Tree
+2) Classification Tree
 
-4) naive_bayes:
-  - NaiveBayes
+### naive_bayes:
+1) NaiveBayes
 
 ### deep_learning/
-1) activation_functions.py: 
-  - Sigmoid
-  - Softmax
-  - Tanh
-  - ReLU
+
+### activation_functions.py: 
+1) Sigmoid
+2) Softmax
+3) Tanh
+4) ReLU
   
-2) layers.py:
-  - Dense
+### layers.py:
+1) Dense
