@@ -3,6 +3,9 @@ import numpy as np
 import copy 
 from typing import Tuple
 
+from MachineLearning.deep_learning.activation_functions import Sigmoid, ReLU
+
+
 class Layer:
 
     def set_input_shape(self, shape):
@@ -89,3 +92,37 @@ class Dense(Layer):
     
     def output_shape(self):
         return (self.n_units, )
+
+
+activation_functions = {
+    'relu': ReLU,
+    'sigmoid': Sigmoid,
+}
+
+
+class Activation(Layer):
+    """
+    A layer that applies an activation operation to the input.
+    
+    Parameters:
+    -----------
+    name: string
+        The name of the activation function that will be used.
+    """
+    def __init(self, name):
+        self.activation_name = name 
+        self.activation_func = activation_functions[name]()
+        self.trainable = True
+
+    def layer_name(self):
+        return f"Activation ({self.activation_func.__class__.__name__})"
+    
+    def forward_pass(self, X, training=True):
+        self.layer_input = X
+        return self.activation_func(X)
+    
+    def backward_pass(self, gradient):
+        return gradient * self.activation_func.gradient(self.layer_input)
+    
+    def output_shape(self):
+        return self.input_shape
