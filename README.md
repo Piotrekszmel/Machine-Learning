@@ -36,16 +36,16 @@ y_pred = clf.predict(X_test)
 1) Regression Tree
 2) Classification Tree
 
-#### aive_bayes:
+#### naive_bayes:
 1) NaiveBayes
 
 ### deep_learning/
 
-#### ctivation_functions.py: 
+#### activation_functions.py: 
 1) Sigmoid
 2) Softmax
 3) Tanh
 4) ReLU
   
-#### ayers.py:
+#### layers.py:
 1) Dense
