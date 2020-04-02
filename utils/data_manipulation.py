@@ -95,6 +95,17 @@ def to_nominal(x):
     return np.argmax(x, axis=1)
 
 
+def batch_iterator(X, y=None, batch_size=64):
+    """ Batch generator """
+    n_samples = X.shape[0]
+    for i in np.arange(0, np_samples, batch_size):
+        begin, end = i, min(batch_size + i, n_samples)
+        if y is not None:
+            yield X[begin:end], y[begin:end]
+        else:
+            X[begin:end]
+
+
 def divide_on_feature(X, feature_i, threshold) -> np.ndarray:
     """ 
     Divide dataset based on if sample value on feature index is larger than
