@@ -3,7 +3,7 @@ import numpy as np
 import copy 
 from typing import Tuple
 
-from MachineLearning.deep_learning.activation_functions import Sigmoid, ReLU
+from MachineLearning.deep_learning.activation_functions import Softmax, Sigmoid, ReLU, LeakyReLU
 
 
 class Layer:
@@ -97,6 +97,8 @@ class Dense(Layer):
 activation_functions = {
     'relu': ReLU,
     'sigmoid': Sigmoid,
+    'softmax': Softmax,
+    'leaky_relu': LeakyReLU
 }
 
 
