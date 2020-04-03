@@ -57,5 +57,15 @@ class NeuralNetwork:
         """ Propagate the gradient 'backwards' and update the weights in each layer """
         for layer in reversed(self.layers):
             loss_gradient = layer._backward_pass(loss_gradient)
-        
-        return loss_gradient
+    
+    def train_on_batch(self, X, y):
+        """ Single gradient update over one batch """
+        y_pred = self._forward_pass(X)
+        loss = np.mean(self.loss_function(y, y_pred))
+        acc = self.loss_function.acc(y, y_pred)
+        #gradient of loss funcyion w.r.t y_pred
+        loss_gradient = self.loss_function.gradient(y, y_pred)
+        #Backpropagate. Update weights
+        self._backward_pass(loss_gradient)
+    
+    
