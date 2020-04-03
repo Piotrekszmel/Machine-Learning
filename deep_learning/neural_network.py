@@ -1,3 +1,4 @@
+from terminaltables import AsciiTable
 import numpy as np 
 import progressbar
 
@@ -94,3 +95,22 @@ class NeuralNetwork:
             self.errors["validations"].append(np.mean(val_loss))
         
         return self.errors["training"], self.errors["validation"]
+    
+    def summary(self, name="Model Sumarry"):
+        print(AsciiTable([[name]]).table)
+        print(f"Input Shape: {self.layers[0].input_shape}")
+        table_data = [["Layer Type", "Parameters", "Output Shape"]]
+        total_params = 0
+        for layer in self.layers:
+            layer_name = layer.layer_name()
+            params = layer.parameters()
+            output_shape = layer.output_shape()
+            table_data.append([layer_name, str(params), str(output_shape)])
+            total_params += params
+
+        print(AsciiTable(table_data).table)
+        print(f"Total Parameters: {total_params}\n")
+    
+    def predict(self, X):
+        """ Use the trained model to predict labels of X """
+        return self._forward_pass(X, training=False)
