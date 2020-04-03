@@ -50,3 +50,6 @@ y_pred = clf.predict(X_test)
 #### layers.py:
 1) Dense
 2) Activation
+
+#### neural_network.py:
+1) NeuralNetwork
