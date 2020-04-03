@@ -44,3 +44,18 @@ class NeuralNetwork:
             layer.initialize(optimizer=optimizer)
         
         self.layers.append(layer)
+
+    def _forward_pass(self, X, training=True):
+        """ Calculate the output of the NN """
+        layer_output = X
+        for layer in self.layers:
+            layer_output = layer.forward_pass(layer_output, training)
+        
+        return layer_output
+
+    def _backward_pass(self, loss_gradient):
+        """ Propagate the gradient 'backwards' and update the weights in each layer """
+        for layer in reversed(self.layers):
+            loss_gradient = layer._backward_pass(loss_gradient)
+        
+        return loss_gradient
