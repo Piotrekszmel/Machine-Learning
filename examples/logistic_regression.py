@@ -18,7 +18,7 @@ def main():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, seed=1)
 
-    clf = LogisticRegression()
+    clf = LogisticRegression(learning_rate=1000000000)
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
 

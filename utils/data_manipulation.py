@@ -48,7 +48,7 @@ def train_test_split(X: np.ndarray, y: np.ndarray, test_size: float = 0.5, shuff
 
     return X_train, X_test, y_train, y_test
 
-def k_fold_cross_validation_sets(X: np.ndarray, y: np.ndarray, k: int, shuffle: bool = True):
+def k_fold_cross_validation_sets(X: np.ndarray, y: np.ndarray, k: int, shuffle: bool = True) -> np.ndarray:
     """ Split the data into k sets of training / test data """
     if shuffle:
         X, y = shuffle_data(X, y)
@@ -95,7 +95,7 @@ def to_nominal(x):
     return np.argmax(x, axis=1)
 
 
-def batch_iterator(X, y=None, batch_size=64):
+def batch_iterator(X, y=None, batch_size=64) -> None:
     """ Batch generator """
     n_samples = X.shape[0]
     for i in np.arange(0, np_samples, batch_size):

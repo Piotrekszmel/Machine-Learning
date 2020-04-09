@@ -14,7 +14,7 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 ```
 
-## What have been implemented so far? (5.04.2020)
+## What have been implemented so far? (9.04.2020)
 
 ### supervised_learning/
 
