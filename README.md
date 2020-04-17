@@ -14,7 +14,7 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 ```
 
-## What have been implemented so far? (9.04.2020)
+## What have been implemented so far? (17.04.2020)
 
 ### supervised_learning/
 
@@ -57,3 +57,7 @@ y_pred = clf.predict(X_test)
 #### loss_functions.py:
 1) SquareLoss
 2) CrossEntropy
+
+#### optimizers.py
+1) SGD
+2) NesterovAcceleratedGradient
