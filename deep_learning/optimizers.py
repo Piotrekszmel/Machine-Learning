@@ -33,3 +33,19 @@ class NesterovAcceleratedGradient:
         self.v = self.momentum * self.v + self.lr * approx_future_grad
         # Move against the gradient to minimize loss
         return w - self.v
+    
+
+class Adagrad:
+    def __init__(self, lr: float = 0.01):
+        self.lr = lr
+        self.F = None # Sum of squares of the gradients
+        self.eps = 1e-8
+    
+    def update(self, w: np.ndarray, grad_w: np.ndarray):
+        # If not initialized
+        if self.G is None:
+            self.G = np.zeros(np.shape(w))
+        # Add the square of the gradient of the loss function at w
+        self.G += np.power(grad_w, 2)
+        # Adaptive gradient with higher learning rate for sparse data
+        return w - self.lr * grad_w / np.sqrt(self.G + self.eps)

@@ -61,3 +61,4 @@ y_pred = clf.predict(X_test)
 #### optimizers.py
 1) SGD
 2) NesterovAcceleratedGradient
+3) Adagrad
